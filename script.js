@@ -1,98 +1,47 @@
-var board = new Array(9);
-var count  = 1;
-var winner = "";
+const buttons = document.querySelectorAll('div');
 const Gameboard = {
-    // init : () =>{
-    //     board = [];
-    //     count = 1;
-    //     winner = "";
-    // },
-    addX : (index) => {
-        board[index] = "X";
+    remainingSlot : 9,
+    board : new Array(9),
+    init : function(){
+        this.board = [];
+        this.remainingSlot = 9;
     },
-    addO : (index) => {
-        board[index] = "O";
+    addX : function(index){
+        if(this.remainingSlot > 0){
+            this.board[index] = "X";
+            this.remainingSlot--;
+        }
     },
-    bindEvent : () =>{
-        var buttons = document.querySelectorAll('div');
+    addO : function(index){
+        if(this.remainingSlot > 0){
+            this.board[index] = "O";
+            this.remainingSlot--;
+        }
+    },
+    render : function(index){
+        console.log(index);
+    },
+    bindEvent : function(){
         buttons.forEach(btn => {
-            btn.addEventListener('click',choose);
+            btn.addEventListener('click',(e) => {
+                console.log(e.target.id);
+            });
         });
     },
-    checkWinner : () => {
-        winner = "";
-        for (const [index,element] of board.entries()) {
-            if(element === "X" || element === "O"){
-                if(index <= 6){
-                    if(board[index] === board[index + 1] && board[index] === board[index + 2]){
-                        element === "X" ? winner = "X" : winner = "O";
-                        console.log(winner);
-                        return;
-                       }
+    checkWinner : function(){
+        for (const [index,ele] of this.board.entries()) {
+            if(ele === "X" || ele === "O"){
+                if(index <= 6 && this.board[index] === this.board[index + 1] &&
+                    this.board[index] === this.board[index + 2]){
+                        this.init();
+                        return ele;
                 }
-                if(index <= 2){
-                    if(board[index] === board[index + 3] && board[index] === board[index + 6]){
-                        element === "X" ? winner = "X" : winner = "O";
-                        console.log(winner);
-                        return;
-                       }
+                if(index <= 2 && this.board[index] === this.board[index + 3] &&
+                    this.board[index] === this.board[index + 6]){
+                        this.init();
+                        return ele;
                 }
-                if(board[0] === board[4] && board[0] === board[8]){
-                    element === "X" ? winner = "X" : winner = "O";
-                    console.log(winner);
-                    return;
-                }
-                if(board[2] === board[4] && board[2] === board[6]){
-                    element === "X" ? winner = "X" : winner = "O";
-                    console.log(winner);
-                    return;
-                   }
             }
         }
-    },
-    render : (id) => {
-        console.log(id);
-    },
+    }
 };
-
-// Gameboard.init();
-Gameboard.bindEvent();
-function choose(e){
-    winner = "";
-    let index = e.target.id;
-    if(board[index] != null){
-        return;
-    }
-    Gameboard.addX(index);
-    Gameboard.render(index);
-    if(count != 5){
-        var randomIndex = Math.floor(Math.random() * 9);
-        while(board[randomIndex] != null){
-            randomIndex = Math.floor(Math.random() * 9);
-        }
-        Gameboard.addO(randomIndex);
-    }
-    console.log(board);
-    Gameboard.checkWinner();
-    count++;
-}
-// function startGame(){
-//     while(count <= 5){
-//         var userInput = parseInt(prompt("Enter index "));
-//         while(board[userInput] != null){
-//             var userInput = parseInt(prompt("Enter index "));
-//         }
-//         Gameboard.addX(userInput);
-
-//         console.log(randomIndex);
-//         console.log(board);
-//         winner = "";
-//         Gameboard.checkWinner();
-//         if(winner.length != 0){
-//             console.log("Winner = "+winner);
-//             Gameboard.reset();
-//             return;
-//         }
-//         count++;
-//     }
-// }
