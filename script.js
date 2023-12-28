@@ -41,6 +41,14 @@ const Gameboard = {
                         this.init();
                         return ele;
                 }
+                if(this.board[0] === this.board[4] && this.board[0] === this.board[8]){
+                    this.init();
+                    return ele;
+                }
+                if(this.board[2] === this.board[4] && this.board[2] === this.board[6]){
+                    this.init();
+                    return ele;
+                }
             }
         }
     }
