@@ -19,13 +19,11 @@ const Gameboard = {
         }
     },
     render : function(index){
-        console.log(index);
+        console.log(this.board[index]);
     },
     bindEvent : function(){
         buttons.forEach(btn => {
-            btn.addEventListener('click',(e) => {
-                console.log(e.target.id);
-            });
+            btn.addEventListener('click',play);
         });
     },
     checkWinner : function(){
@@ -53,3 +51,25 @@ const Gameboard = {
         }
     }
 };
+Gameboard.init();
+Gameboard.bindEvent();
+function play(event){
+    if(Gameboard.remainingSlot >= 0){
+        userInput = event.target.id;
+        if(Gameboard.board[userInput] != null){
+            return;
+        }
+        Gameboard.addX(userInput);
+        if(Gameboard.remainingSlot != 0){
+            var randomIndex = Math.floor(Math.random()*9);
+            while(Gameboard.board[randomIndex] != null){
+                console.log("Hi");
+                randomIndex = Math.floor(Math.random()*9);
+            }
+        }
+        Gameboard.addO(randomIndex);
+        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner === "O"){
+            console.log("Winner = "+Gameboard.checkWinner());
+        }
+    } 
+}
