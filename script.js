@@ -43,29 +43,28 @@ const Gameboard = {
     },
     checkWinner : function(){
         for (const [index,ele] of this.board.entries()) {
-            if(ele === "X" || ele === "O"){
-                if( this.board[index] === this.board[index + 1] &&
-                    this.board[index] === this.board[index + 2]){
-                        console.log(1);
+            if(ele == "X"|| ele == "O"){
+                if(index == 0 || index == 3 || index == 6){
+                    if(this.board[index] == ele && this.board[index + 1] == ele && this.board[index + 2] == ele){
                         return ele;
+                    }
                 }
-                if(this.board[index] === this.board[index + 3] &&
-                    this.board[index] === this.board[index + 6]){
-                        console.log(2);
+                if(index == 0 || index == 1 || index == 2){
+                    if(this.board[index] == ele && this.board[index + 3] == ele && this.board[index + 6] == ele){
                         return ele;
+                    }
                 }
-                if(this.board[index] === this.board[index + 4] && this.board[index] === this.board[index + 8]){
-                    console.log(3);
+                if(this.board[0] == ele && this.board[4] == ele && this.board[8] == ele){
                     return ele;
                 }
-                if(this.board[index] === this.board[index + 2] && this.board[index] === this.board[index + 4]){
-                    console.log(4);
+                if(this.board[2] == ele && this.board[4] == ele && this.board[6] == ele){
                     return ele;
                 }
             }
         }
-    }
+    }  
 };
+
 Gameboard.init();
 function play(event){
     if(Gameboard.remainingSlot > 0){
@@ -94,10 +93,10 @@ function play(event){
             if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
                 let winner = Gameboard.checkWinner();
                 Gameboard.render[1](winner);
-                setTimeout(() => Gameboard.init(),2000);
+                setTimeout(() => Gameboard.init(),1000);
             }
             if(Gameboard.remainingSlot <= 0){
-                setTimeout(() => Gameboard.init(),2000);
+                setTimeout(() => Gameboard.init(),1000);
             }
         },500);
     }
