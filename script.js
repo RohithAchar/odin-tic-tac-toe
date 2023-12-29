@@ -29,7 +29,6 @@ const Gameboard = {
     render : [function(index,ele){
         for (const div of buttons) {
             if(div.id == index){
-                console.log("LOL");
                 div.innerText = ele;
                 break;
             }
@@ -45,18 +44,22 @@ const Gameboard = {
     checkWinner : function(){
         for (const [index,ele] of this.board.entries()) {
             if(ele === "X" || ele === "O"){
-                if(this.board[index] === this.board[index + 1] &&
+                if( this.board[index] === this.board[index + 1] &&
                     this.board[index] === this.board[index + 2]){
+                        console.log(1);
                         return ele;
                 }
                 if(this.board[index] === this.board[index + 3] &&
                     this.board[index] === this.board[index + 6]){
+                        console.log(2);
                         return ele;
                 }
                 if(this.board[index] === this.board[index + 4] && this.board[index] === this.board[index + 8]){
+                    console.log(3);
                     return ele;
                 }
                 if(this.board[index] === this.board[index + 2] && this.board[index] === this.board[index + 4]){
+                    console.log(4);
                     return ele;
                 }
             }
@@ -65,15 +68,13 @@ const Gameboard = {
 };
 Gameboard.init();
 function play(event){
-    if(Gameboard.remainingSlot <= 0){
-        setTimeout(() => Gameboard.init(),1000);
-    }
-    if(Gameboard.remainingSlot >= 0){
+    if(Gameboard.remainingSlot > 0){
         userInput = event.target.id;
         if(Gameboard.board[userInput] != null){
             return;
         }
         Gameboard.addX(userInput)
+        console.log(Gameboard.board);
         
         if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
             let winner = Gameboard.checkWinner();
@@ -88,13 +89,16 @@ function play(event){
                 randomIndex = Math.floor(Math.random()*9);
             }
         }
-        setTimeout(() => Gameboard.addO(randomIndex),500);
-        console.log(Gameboard.board);
-        console.log(Gameboard.checkWinner());
-        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
-            let winner = Gameboard.checkWinner();
-            Gameboard.render[1](winner);
-            setTimeout(() => Gameboard.init(),1000);
-        }
-    } 
+        setTimeout(() => {
+            Gameboard.addO(randomIndex);
+            if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
+                let winner = Gameboard.checkWinner();
+                Gameboard.render[1](winner);
+                setTimeout(() => Gameboard.init(),2000);
+            }
+            if(Gameboard.remainingSlot <= 0){
+                setTimeout(() => Gameboard.init(),2000);
+            }
+        },500);
+    }
 }
