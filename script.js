@@ -6,21 +6,32 @@ const Gameboard = {
         this.board = new Array(9);
         this.remainingSlot = 9;
         this.bindEvent();
+        buttons.forEach(element => {
+            element.innerText = "";
+        });
     },
     addX : function(index){
         if(this.remainingSlot > 0){
             this.board[index] = "X";
             this.remainingSlot--;
+            this.render(index,"X");
         }
     },
     addO : function(index){
         if(this.remainingSlot > 0){
             this.board[index] = "O";
             this.remainingSlot--;
+            this.render(index,"O");
         }
     },
-    render : function(index){
-        console.log(this.board[index]);
+    render : function(index,ele){
+        for (const div of buttons) {
+            if(div.id == index){
+                console.log("LOL");
+                div.innerText = ele;
+                break;
+            }
+        }
     },
     bindEvent : function(){
         buttons.forEach(btn => {
@@ -55,21 +66,30 @@ function play(event){
         if(Gameboard.board[userInput] != null){
             return;
         }
-        Gameboard.addX(userInput);
+        Gameboard.addX(userInput)
+        
+        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner === "O"){
+            console.log("Winner = "+Gameboard.checkWinner());
+            setTimeout(() => Gameboard.init(),1000);
+            return;
+        }
+
         if(Gameboard.remainingSlot != 0){
             var randomIndex = Math.floor(Math.random()*9);
             while(Gameboard.board[randomIndex] != null){
                 randomIndex = Math.floor(Math.random()*9);
             }
         }
-        Gameboard.addO(randomIndex);
+        setTimeout(() => Gameboard.addO(randomIndex),500);
         console.log(Gameboard.board);
-        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner === "O"){
+        console.log(Gameboard.checkWinner());
+        if(Gameboard.checkWinner() == "X" || Gameboard.checkWinner() == "O"){
             console.log("Winner = "+Gameboard.checkWinner());
-            Gameboard.init();
+            setTimeout(() => Gameboard.init(),1000);
+            
         }
         if(Gameboard.remainingSlot <= 0){
-            Gameboard.init();
+            setTimeout(() => Gameboard.init(),1000);
         }
     } 
 }

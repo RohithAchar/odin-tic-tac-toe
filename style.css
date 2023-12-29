@@ -1,8 +1,21 @@
 body{
     display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 div{
+    font-family: sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 900;
+    font-size: 32px;
     width: 100px;
     height: 100px;
     border: 1px solid black;
+}
+.div-wrapper{
+    display: grid;
+    grid-template-columns: repeat(3,100px);
 }
