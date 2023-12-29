@@ -1,8 +1,10 @@
 const buttons = document.querySelectorAll('div');
+const winnerOutput = document.querySelector('h1');
 const Gameboard = {
     remainingSlot : 9,
     board : new Array(9),
     init : function(){
+        winnerOutput.innerText = "Tic Tac Toe";
         this.board = new Array(9);
         this.remainingSlot = 9;
         this.bindEvent();
