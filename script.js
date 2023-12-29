@@ -16,17 +16,17 @@ const Gameboard = {
         if(this.remainingSlot > 0){
             this.board[index] = "X";
             this.remainingSlot--;
-            this.render(index,"X");
+            this.render[0](index,"X");
         }
     },
     addO : function(index){
         if(this.remainingSlot > 0){
             this.board[index] = "O";
             this.remainingSlot--;
-            this.render(index,"O");
+            this.render[0](index,"O");
         }
     },
-    render : function(index,ele){
+    render : [function(index,ele){
         for (const div of buttons) {
             if(div.id == index){
                 console.log("LOL");
@@ -34,7 +34,9 @@ const Gameboard = {
                 break;
             }
         }
-    },
+    },function(winner){
+        winnerOutput.innerText = "Winner is "+winner;
+    }],
     bindEvent : function(){
         buttons.forEach(btn => {
             btn.addEventListener('click',play);
@@ -63,6 +65,9 @@ const Gameboard = {
 };
 Gameboard.init();
 function play(event){
+    if(Gameboard.remainingSlot <= 0){
+        setTimeout(() => Gameboard.init(),1000);
+    }
     if(Gameboard.remainingSlot >= 0){
         userInput = event.target.id;
         if(Gameboard.board[userInput] != null){
@@ -70,8 +75,9 @@ function play(event){
         }
         Gameboard.addX(userInput)
         
-        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner === "O"){
-            console.log("Winner = "+Gameboard.checkWinner());
+        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
+            let winner = Gameboard.checkWinner();
+            Gameboard.render[1](winner);
             setTimeout(() => Gameboard.init(),1000);
             return;
         }
@@ -85,12 +91,9 @@ function play(event){
         setTimeout(() => Gameboard.addO(randomIndex),500);
         console.log(Gameboard.board);
         console.log(Gameboard.checkWinner());
-        if(Gameboard.checkWinner() == "X" || Gameboard.checkWinner() == "O"){
-            console.log("Winner = "+Gameboard.checkWinner());
-            setTimeout(() => Gameboard.init(),1000);
-            
-        }
-        if(Gameboard.remainingSlot <= 0){
+        if(Gameboard.checkWinner() === "X" || Gameboard.checkWinner() === "O"){
+            let winner = Gameboard.checkWinner();
+            Gameboard.render[1](winner);
             setTimeout(() => Gameboard.init(),1000);
         }
     } 
